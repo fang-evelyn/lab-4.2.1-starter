@@ -43,10 +43,16 @@ def make_endpoints(app, backend):
         return render_template("pages.html",
                                page_name="Wiki Index",
                                all_pages=backend.get_all_page_names())
-
+    
     @app.route("/pages/<name>")
     def pages(name):
         """Returns the page from backend.get_wiki_page"""
+        extra_image = None
+        if name == "nefarious-purpuss":  # <-- match your file name (minus .txt)
+            extra_image = "random-cat-skiing"
+
         return render_template("main.html",
-                               page_name=name,
-                               page_content=backend.get_wiki_page(name))
+                            page_name=name,
+                            page_content=backend.get_wiki_page(name),
+                            extra_image=extra_image)
+

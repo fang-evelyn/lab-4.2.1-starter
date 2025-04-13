@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <head>
-        <title>{% block page_name %}{{ page_name }}{% endblock %}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block page_name %}{{ page_name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <!-- The below tag is using Bulma CSS. Try replacing line 14 with line 13. -->
-    <!-- <div class="has-text-success-dark is-size-4  has-text-weight-medium"> -->
-    <div>
-        <a href="{{ url_for('home') }}">
-            Home
-        </a>
-        &nbsp;&nbsp;
-        <a href="{{ url_for('all_pages') }}">
-            Pages
-        </a>
-        &nbsp;&nbsp;
-        <a href="{{ url_for('about') }}">
-            About
-        </a>
+
+    <!-- Navigation Bar -->
+    <div class="has-text-success-dark is-size-4 has-text-weight-medium" style="padding: 10px;">
+        <a href="{{ url_for('home') }}">Home</a>&nbsp;&nbsp;
+        <a href="{{ url_for('all_pages') }}">Pages</a>&nbsp;&nbsp;
+        <a href="{{ url_for('about') }}">About</a>
     </div>
 
-    <!-- The below tag is using Bulma CSS. Try replacing line 30 with line 29. -->
-    <!-- <div class="content"> -->
-    <div>
-        {% block content %}{{ page_content }}{% endblock %}
+    <!-- Main Content -->
+    <div class="content" style="padding: 20px;">
+
+        <!-- Optional image for special pages like "nefariouspuss" -->
+        {% if extra_image %}
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="{{ url_for('images', image=extra_image) }}" 
+                 alt="Special Cat Image" 
+                 width="400" 
+                 style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+            <p style="font-style: italic; margin-top: 8px;">Nefarious Puss hitting the slopes</p>
+        </div>
+        {% endif %}
+
+        <!-- Page Content Block -->
+        {% block content %}
+            {{ page_content | replace('\n', '<br>') | safe }}
+        {% endblock %}
+        
     </div>
 
 </body>
-
 </html>
